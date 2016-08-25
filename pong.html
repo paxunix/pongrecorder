@@ -77,9 +77,23 @@
     }
 
 
-    function gameTypeClick(evt) {
-      let is1v1 = evt.target.id.search(/1v1/) !== -1;
+    function getWinLossStateForFieldsetId(set)
+    {
+      let $checked = jQuery(`#${set} input[type="radio"]:checked`);
+      if ($checked.length === 0)
+        return ""
+      else if ($checked.id.search(/loss/) !== -1)
+        return "l"
 
+      return "w"
+    }
+
+
+    function setStates()
+    {
+      // Hide player 2 pulldowns on each team if 1v1 is selected (show them
+      // otherwise)
+      let is1v1 = jQuery('#1v1').prop("checked");
       if (is1v1)
       {
         jQuery("#t1p2").selectmenu("widget").hide();
@@ -90,6 +104,11 @@
         jQuery("#t1p2").selectmenu("widget").show();
         jQuery("#t2p2").selectmenu("widget").show();
       }
+
+      let t1WinLoss = getWinLossStateForFieldsetId("t1winlossButtons");
+      let t2WinLoss = getWinLossStateForFieldsetId("t2winlossButtons");
+      jQuery("#saveMatch").button((t1WinLoss && t2WinLoss) ? "enable" : "disable");
+    }
 
 
     function winLossClick(evt)
@@ -106,10 +125,14 @@
     }
 
 
+    function gameTypeClick(evt)
+    {
+      setStates();
     }
 
 
-    function saveMatchClick(evt) {
+    function saveMatchClick(evt)
+    {
       let match = {};
       let gameType = jQuery('#gameTypeButtons input[type="radio"]:checked:first')[0].id;
       let t1p1 = jQuery("#t1p1").val();
@@ -134,38 +157,39 @@
       }
 
       saveMatch(match);
+      displayMatchData();
     }
 
 
-    function clearMatchesClick(evt) {
+    function clearMatchesClick(evt)
+    {
       localStorage.removeItem(STORAGE_KEY);
       displayMatchData();
     }
 
 
-    function mailMatchesClick(evt) {
+    function mailMatchesClick(evt)
+    {
       let body = []
       for (let match of (localStorage.getItem(STORAGE_KEY) || []))
       {
         match = JSON.parse(match);
         body.push(`/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`);
-
-        let url = new URI("mailto:automotive-pongbot@amazon.com");
-        url.setSearch({
-          subject: "Pong Match",
-          body: body.join("\n"),
-        });
-
-        let mailto = jQuery("<a>")
-          .attr("href", url.toString())
-          .text(matchRecordString)
-
-        jQuery("#matchdata").append(mailto).append("<p>");
       }
+
+      //let url = new URI("mailto:automotive-pongbot@amazon.com");
+      let url = new URI("mailto:paxunix@gmail.com");
+      url.setSearch({
+        subject: "Pong Match",
+        body: body.join("\n"),
+      });
+
+      window.open(url.toString(), "pongbot mail window");
     }
 
 
-    function displayMatchData() {
+    function displayMatchData()
+    {
       // Iterate through locally saved match data and output mailto URLs
       // with match data.
       jQuery("#matchdata").html("");
@@ -187,6 +211,8 @@
 
         jQuery("#matchdata").append(mailto).append("<p>");
       }
+
+      setStates();
     }
 
 
@@ -220,6 +246,7 @@
 
       jQuery("#saveMatch").click(saveMatchClick).button();
       jQuery("#clearMatches").click(clearMatchesClick).button();
+      jQuery("#mailMatches").click(mailMatchesClick).button();
 
       displayMatchData();
     })
