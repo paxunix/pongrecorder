@@ -291,6 +291,31 @@
     }
 
 
+    function savePlayerListClick(evt)
+    {
+      let oldPlayers = getPlayerList();
+      let input = jQuery("#editPlayerList").val();
+      let newPlayers = [];
+
+      // Extract all things that look like player names (alphanumerics)
+      let regex = /(\w+)/g;
+      let m;
+      while (m = regex.exec(input))
+      {
+        newPlayers.push(m[0]);
+      }
+
+      // Toggle back to game data entry
+      jQuery(".playerDataEntry").hide();
+
+      newPlayers.sort();
+      setPlayerList(newPlayers);
+      fillPlayerPulldowns();
+
+      jQuery(".dataEntry").show();
+    }
+
+
     function cancelPlayerListClick(evt)
     {
       // Toggle back to game data entry
@@ -344,6 +369,7 @@
       jQuery("#clearMatches").click(clearMatchesClick);
 
       jQuery("#editPlayers").click(editPlayersClick);
+      jQuery("#saveList").click(savePlayerListClick);
       jQuery("#cancelList").click(cancelPlayerListClick);
 
       displayMatchData();
