@@ -203,13 +203,13 @@
 
         if ($t1winLoss[0].id === "t1-win")
         {
-          match.winTeam = [ t1p1, t1p2 ].join(",");
-          match.loseTeam = [ t2p1, t2p2 ].join(",");
+          match.winTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
+          match.loseTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
         }
         else
         {
-          match.winTeam = [ t2p1, t2p2 ].join(",");
-          match.loseTeam = [ t1p1, t1p2 ].join(",");
+          match.winTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
+          match.loseTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
         }
       }
 
