@@ -1,8 +1,6 @@
 <head>
   <title>Dumb Pong Match Recorder</title>
 
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-
   <style>
     .flex-center {
       display: flex;
@@ -51,7 +49,6 @@
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/URI.js"></script>
 
   <script>
@@ -126,11 +123,10 @@
 
       jQuery('#t1-win,#t1-loss,#t2-win,#t2-loss').prop("checked", false);
 
-      jQuery("#t1p2").selectmenu("widget").show();
-      jQuery("#t2p2").selectmenu("widget").show();
+      jQuery("#t1p2").show();
+      jQuery("#t2p2").show();
 
       jQuery("#t1p1,#t1p2,#t2p1,#t2p2").val("");
-      jQuery("#t1p1,#t1p2,#t2p1,#t2p2").selectmenu("refresh");
 
       jQuery('option[name^=player-]').prop("disabled", false);
 
@@ -146,13 +142,13 @@
       let is1v1 = jQuery('#1v1').prop("checked");
       if (is1v1)
       {
-        jQuery("#t1p2").selectmenu("widget").hide();
-        jQuery("#t2p2").selectmenu("widget").hide();
+        jQuery("#t1p2").hide();
+        jQuery("#t2p2").hide();
       }
       else
       {
-        jQuery("#t1p2").selectmenu("widget").show();
-        jQuery("#t2p2").selectmenu("widget").show();
+        jQuery("#t1p2").show();
+        jQuery("#t2p2").show();
       }
 
       // Determine if a win/loss has been selected for each team (even if
@@ -181,17 +177,14 @@
         jQuery(`option[name="player-${playerName}"]`, el).prop("disabled", false);
       }
 
-      // Reflect disabled/enabled changes to player names
-      jQuery("#t1p1,#t1p2,#t2p1,#t2p2").selectmenu("refresh");
-
       // Save can only be done if required fields have values
-      jQuery("#saveMatch").button(
+      jQuery("#saveMatch").prop("disabled",
         (is1v1 && (t1p1.val() && t2p1.val()) ||
           (t1p1.val() && t1p2.val() && t2p1.val() && t2p2.val())) &&
-        t1WinLoss && t2WinLoss ? "enable" : "disable");
+        t1WinLoss && t2WinLoss ? false : true);
 
       // Mail can only be done if at least one match is saved
-      jQuery("#mailMatches").button(hasSavedMatches() ? "enable" : "disable");
+      jQuery("#mailMatches").prop("disabled", hasSavedMatches() ? false : true);
     }
 
 
@@ -321,20 +314,16 @@
       jQuery("#1v1").click(setStates);
       jQuery("#2v2").click(setStates);
 
-      jQuery("#gameTypeButtons").buttonset({ items: "input" });
-      jQuery("#t1winlossButtons").buttonset({ items: "input" });
-      jQuery("#t2winlossButtons").buttonset({ items: "input" });
+      jQuery("#t1p1").change(setStates);
+      jQuery("#t1p2").change(setStates);
+      jQuery("#t2p1").change(setStates);
+      jQuery("#t2p2").change(setStates);
 
-      jQuery("#t1p1").selectmenu({ select: setStates });
-      jQuery("#t1p2").selectmenu({ select: setStates });
-      jQuery("#t2p1").selectmenu({ select: setStates });
-      jQuery("#t2p2").selectmenu({ select: setStates });
+      jQuery("#saveMatch").click(saveMatchClick);
+      jQuery("#reset").click(resetStates);
+      jQuery("#mailMatches").click(mailMatchesClick);
 
-      jQuery("#saveMatch").click(saveMatchClick).button();
-      jQuery("#reset").click(resetStates).button();
-      jQuery("#mailMatches").click(mailMatchesClick).button();
-
-      jQuery("#clearMatches").click(clearMatchesClick).button();
+      jQuery("#clearMatches").click(clearMatchesClick);
 
       displayMatchData();
     })
