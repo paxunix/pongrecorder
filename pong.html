@@ -25,6 +25,16 @@
       width: 100%;
     }
 
+    .deleteMatch {
+      padding-left: 1em;
+      padding-right: 1em;
+      text-decoration: none;
+    }
+
+    .deleteMatch:link, .deleteMatch:visited, .deleteMatch:hover, .deleteMatch:active {
+      color: red;
+    }
+
     /* Player editing is hidden on load */
     .playerDataEntry {
       display: none;
@@ -236,12 +246,21 @@
     {
       jQuery("#matchdata").html(hasSavedMatches() ? "<ol></ol>" : "You have no saved matches");
 
+      let count = 0;
       for (let match of getMatches())
       {
         let prettyTime = new Date(Date.parse(match.timestamp));
+        let deleteAnchor = jQuery("<a>")
+          .addClass("deleteMatch")
+          .data("offset", count)
+          .attr("href", "#")
+          .text("\u2573");
         let item = jQuery("<li>")
           .attr("title", prettyTime.toString())
-          .text(`w:${match.winTeam} l:${match.loseTeam}`)
+          .text(`w:${match.winTeam} l:${match.loseTeam}`);
+
+        count++;
+        item[0].innerHTML = deleteAnchor[0].outerHTML + item[0].innerHTML;
 
         jQuery("#matchdata ol").append(item);
       }
