@@ -163,12 +163,6 @@
     }
 
 
-    function gameTypeClick(evt)
-    {
-      setStates();
-    }
-
-
     function saveMatchClick(evt)
     {
       debugger;
@@ -276,8 +270,8 @@
       jQuery("#t2-win").click(winLossClick);
       jQuery("#t2-loss").click(winLossClick);
 
-      jQuery("#1v1").click(gameTypeClick);
-      jQuery("#2v2").click(gameTypeClick);
+      jQuery("#1v1").click(setStates);
+      jQuery("#2v2").click(setStates);
 
       jQuery("#gameTypeButtons").buttonset({ items: "input" });
       jQuery("#t1winlossButtons").buttonset({ items: "input" });
