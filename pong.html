@@ -291,6 +291,14 @@
     }
 
 
+    function cancelPlayerListClick(evt)
+    {
+      // Toggle back to game data entry
+      jQuery(".playerDataEntry").hide();
+      jQuery(".dataEntry").show();
+    }
+
+
     jQuery(document).ready(function () {
       // Populate list of players if no saved player list exists
       if (getPlayerList().length === 0)
@@ -336,6 +344,7 @@
       jQuery("#clearMatches").click(clearMatchesClick);
 
       jQuery("#editPlayers").click(editPlayersClick);
+      jQuery("#cancelList").click(cancelPlayerListClick);
 
       displayMatchData();
     })
