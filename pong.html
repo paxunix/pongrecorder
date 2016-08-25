@@ -227,9 +227,19 @@
       // with match data.
       jQuery("#matchdata").html("");
 
-      for (let match of (localStorage.getItem(STORAGE_KEY) || []))
+      let matches = (localStorage.getItem(STORAGE_KEY) || "[]");
+      try {
+        matches = JSON.parse(matches);
+      }
+      catch (e) {
+        // If anything goes wrong with parsing, throw away the data
+        localStorage.removeItem(STORAGE_KEY);
+        matches = []
+      }
+
+      for (let match of matches)
       {
-        match = JSON.parse(match);
+
         let matchRecordString = `/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`;
 
         let url = new URI("mailto:automotive-pongbot@amazon.com");
