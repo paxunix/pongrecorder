@@ -33,6 +33,7 @@
     }
 
 
+    const STORAGE_KEY = "matchData";
     let players = [
       "baekc",
       "chengxw",
@@ -51,6 +52,43 @@
     ];
 
     players.sort();
+
+
+    function saveMatch(match)
+    {
+      let matchData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
+      matchData.push(match)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(matchData));
+    }
+
+
+    function saveMatchClick(evt) {
+      let match = {};
+      let gameType = jQuery('#gameTypeButtons input[type="radio"]:checked:first')[0].id;
+      let t1p1 = jQuery("#t1p1").val();
+      let t1p2 = jQuery("#t1p2").val();
+      let t2p1 = jQuery("#t2p1").val();
+      let t2p2 = jQuery("#t2p2").val();
+      let t1winLoss = jQuery('#t1winlossButtons input[type="radio"]:checked:first')[0];
+      if (t1winLoss.length > 0)
+      {
+        match.timestamp = "XXX";
+
+        if (t1winLoss[0].id === "t1-win")
+        {
+          match.winTeam = [ t1p1, t1p2 ].join(",");
+          match.loseTeam = [ t2p1, t2p2 ].join(",");
+        }
+        else
+        {
+          match.winTeam = [ t2p1, t2p2 ].join(",");
+          match.loseTeam = [ t1p1, t1p2 ].join(",");
+        }
+      }
+
+      saveMatch(match);
+    }
+
 
     jQuery(document).ready(function () {
       // Populate each select with all players
@@ -102,6 +140,8 @@
       jQuery("#t1p2").selectmenu();
       jQuery("#t2p1").selectmenu();
       jQuery("#t2p2").selectmenu();
+
+      jQuery("#saveMatch").click(saveMatchClick).button();
     })
   </script>
 </head>
