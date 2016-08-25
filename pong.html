@@ -81,11 +81,11 @@
     {
       let $checked = jQuery(`#${set} input[type="radio"]:checked`);
       if ($checked.length === 0)
-        return ""
-      else if ($checked.id.search(/loss/) !== -1)
-        return "l"
+        return "";
+      else if ($checked[0].id.search(/loss/) !== -1)
+        return "l";
 
-      return "w"
+      return "w";
     }
 
 
