@@ -150,8 +150,8 @@
       let otherTeamPrefix = switchTeamNumber(prefix);
 
       // Toggle the other team's win/loss buttons
-      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "win" : "loss")).prop("checked", false).change();
-      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "loss" : "win")).prop("checked", true).change();
+      jQuery(`#${otherTeamPrefix}-${isWin ? "win" : "loss"}`).prop("checked", false).change();
+      jQuery(`#${otherTeamPrefix}-${isWin ? "loss" : "win"}`).prop("checked", true).change();
 
       setStates();
     }
