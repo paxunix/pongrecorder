@@ -230,8 +230,11 @@
 
     function clearMatchesClick(evt)
     {
-      clearStoredMatches();
-      displayMatchData();
+      if (window.confirm("Clear all saved matches?"))
+      {
+        clearStoredMatches();
+        displayMatchData();
+      }
     }
 
 

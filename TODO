@@ -1,3 +1,2 @@
 - delete a single saved match
 - allow editing of list of available players.  Store it in localstorage.
-- add confirmation to clear button
