@@ -56,6 +56,12 @@
     }
 
 
+    function hasSavedMatches()
+    {
+        return getMatches().length > 0;
+    }
+
+
     function saveMatch(match)
     {
       let matchData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
