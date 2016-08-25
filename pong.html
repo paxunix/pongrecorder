@@ -165,18 +165,19 @@
 
     function saveMatchClick(evt)
     {
+      debugger;
       let match = {};
       let gameType = jQuery('#gameTypeButtons input[type="radio"]:checked:first')[0].id;
       let t1p1 = jQuery("#t1p1").val();
       let t1p2 = jQuery("#t1p2").val();
       let t2p1 = jQuery("#t2p1").val();
       let t2p2 = jQuery("#t2p2").val();
-      let t1winLoss = jQuery('#t1winlossButtons input[type="radio"]:checked:first')[0];
-      if (t1winLoss.length > 0)
+      let $t1winLoss = jQuery('#t1winlossButtons input[type="radio"]:checked:first');
+      if ($t1winLoss.length > 0)
       {
         match.timestamp = (new Date).toISOString();
 
-        if (t1winLoss[0].id === "t1-win")
+        if ($t1winLoss[0].id === "t1-win")
         {
           match.winTeam = [ t1p1, t1p2 ].join(",");
           match.loseTeam = [ t2p1, t2p2 ].join(",");
