@@ -222,8 +222,7 @@
         body.push(`/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`);
       }
 
-      //let url = new URI("mailto:automotive-pongbot@amazon.com");
-      let url = new URI("mailto:paxunix@gmail.com");
+      let url = new URI("mailto:" + "automotive-pongbot" + "@" + "amazon.com");
       url.setSearch({
         subject: "Pong Match",
         body: body.join("\n"),
