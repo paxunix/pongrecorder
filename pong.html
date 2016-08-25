@@ -36,25 +36,7 @@
 
   <script>
     const STORAGE_KEY = "pongrecorder-matchData";
-    let players = [
-      "baekc",
-      "chengxw",
-      "ddivyesh",
-      "dmmalone",
-      "georgyue",
-      "gunterj",
-      "haimobai",
-      "halpenny",
-      "jabeck",
-      "locknerp",
-      "markajo",
-      "scarbro",
-      "tomwdlw",
-      "varshnes",
-      "midha",
-    ];
-
-    players.sort();
+    const PLAYER_LIST_KEY = "pongrecorder-playerList";
 
 
     function switchTeamNumber(str)
@@ -269,11 +251,58 @@
     }
 
 
+    function getPlayerList()
+    {
+      let playerData = JSON.parse(localStorage.getItem(PLAYER_LIST_KEY)) || [];
+      return playerData;
+    }
+
+
+    function setPlayerList(players)
+    {
+      players.sort();
+      localStorage.setItem(PLAYER_LIST_KEY, JSON.stringify(players));
+    }
+
+
+    function editPlayersClick(evt)
+    {
+      jQuery(".dataEntry").hide();
+
+      let players = getPlayerList();
+      if (players.length)
+        jQuery("#editPlayerList").val(getPlayerList().join("\n") + "\n");
+
+      jQuery(".playerDataEntry").show();
+    }
+
+
     jQuery(document).ready(function () {
+      // Populate list of players if no saved player list exists
+      if (getPlayerList().length === 0)
+        setPlayerList([
+          "baekc",
+          "chengxw",
+          "ddivyesh",
+          "dmmalone",
+          "georgyue",
+          "gunterj",
+          "haimobai",
+          "halpenny",
+          "jabeck",
+          "locknerp",
+          "markajo",
+          "midha",
+          "mittalvm",
+          "scarbro",
+          "tomwdlw",
+          "varshnes",
+        ]);
+
       // Populate each select with all players
       for (selectId of ["t1p1", "t1p2", "t2p1", "t2p2"])
       {
-        for (p of players)
+        for (p of getPlayerList())
         {
           let opt = jQuery("<option>").attr("name", `player-${p}`).text(p);
           jQuery(`#${selectId}`).append(opt);
@@ -300,6 +329,8 @@
       jQuery("#mailMatches").click(mailMatchesClick);
 
       jQuery("#clearMatches").click(clearMatchesClick);
+
+      jQuery("#editPlayers").click(editPlayersClick);
 
       displayMatchData();
     })
