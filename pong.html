@@ -26,14 +26,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/IPv6.js"></script>
 
   <script>
-    function switchTeamNumber(str)
-    {
-        if (str.search(/1/) !== -1) return str.replace(/1/, "2");
-        if (str.search(/2/) !== -1) return str.replace(/2/, "1");
-        throw new Error("unknown team id");
-    }
-
-
     const STORAGE_KEY = "matchData";
     let players = [
       "baekc",
@@ -53,6 +45,14 @@
     ];
 
     players.sort();
+
+
+    function switchTeamNumber(str)
+    {
+        if (str.search(/1/) !== -1) return str.replace(/1/, "2");
+        if (str.search(/2/) !== -1) return str.replace(/2/, "1");
+        throw new Error("unknown team id");
+    }
 
 
     function saveMatch(match)
