@@ -8,8 +8,16 @@
       width: 20em;
     }
 
-    #t1winlossButtons label, #t2winlossButtons label {
-      vertical-align: top;
+    #saveMatch {
+      margin: 0.5em;
+    }
+
+    #clearMatches {
+      margin: 0.5em;
+    }
+
+    #mailMatches {
+      margin: 0.5em;
     }
   </style>
 
@@ -103,47 +111,58 @@
   <fieldset id="gameTypeButtons">
     <legend>Game type</legend>
     <label for="2v2">2v2</label>
-    <input type="radio" name="type" id="2v2" checked="checked">
+    <input type="radio" name="gametype" id="2v2" checked="checked">
     <label for="1v1">1v1</label>
-    <input type="radio" name="type" id="1v1">
+    <input type="radio" name="gametype" id="1v1">
   </fieldset>
 
   <fieldset id="team1">
     <legend>Team 1</legend>
 
+    <div id="t1winlossButtons">
+      <label for="t1-win">W</label>
+      <input type="radio" name="t1winloss" id="t1-win">
+      <label for="t1-loss">L</label>
+      <input type="radio" name="t1winloss" id="t1-loss">
+    </div>
+
+    <div>
     <select id="t1p1">
-      <option selected>Choose player...</option>
+      <option value="" selected>Choose player...</option>
     </select>
+    </div>
 
     <select id="t1p2">
-      <option selected>Choose player...</option>
+      <option value="" selected>Choose player...</option>
     </select>
-
-    <span id="t1winlossButtons">
-      <label for="t1-win">Win</label>
-      <input type="radio" name="t1winloss" id="t1-win">
-      <label for="t1-loss">Loss</label>
-      <input type="radio" name="t1winloss" id="t1-loss">
-    </span>
   </fieldset>
 
   <fieldset id="team2">
     <legend>Team 2</legend>
 
+    <div id="t2winlossButtons">
+      <label for="t2-win">W</label>
+      <input type="radio" name="t2winloss" id="t2-win">
+      <label for="t2-loss">L</label>
+      <input type="radio" name="t2winloss" id="t2-loss">
+    </div>
+
+    <div>
     <select id="t2p1">
       <option selected>Choose player...</option>
     </select>
+    </div>
 
     <select id="t2p2">
       <option selected>Choose player...</option>
     </select>
-
-    <span id="t2winlossButtons">
-      <label for="t2-win">Win</label>
-      <input type="radio" name="t2winloss" id="t2-win">
-      <label for="t2-loss">Loss</label>
-      <input type="radio" name="t2winloss" id="t2-loss">
-    </span>
   </fieldset>
 
+  <button id="saveMatch">Save</button> <button id="clearMatches">Clear</button> <button id="mailMatches">Mail</button>
+
+  <fieldset id="matches">
+    <legend>Local saved match data</legend>
+    <div id="matchdata">
+    </div>
+  </fieldset>
 </body>
