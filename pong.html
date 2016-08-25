@@ -209,10 +209,9 @@
 
     function mailMatchesClick(evt)
     {
-      let body = []
-      for (let match of (localStorage.getItem(STORAGE_KEY) || []))
+      let body = [];
+      for (let match of getMatches())
       {
-        match = JSON.parse(match);
         body.push(`/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`);
       }
 
@@ -231,21 +230,10 @@
     {
       // Iterate through locally saved match data and output mailto URLs
       // with match data.
-      jQuery("#matchdata").html("");
+      jQuery("#matchdata").html("");    // Clear display area
 
-      let matches = (localStorage.getItem(STORAGE_KEY) || "[]");
-      try {
-        matches = JSON.parse(matches);
-      }
-      catch (e) {
-        // If anything goes wrong with parsing, throw away the data
-        localStorage.removeItem(STORAGE_KEY);
-        matches = []
-      }
-
-      for (let match of matches)
+      for (let match of getMatches())
       {
-
         let matchRecordString = `/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`;
 
         let url = new URI("mailto:automotive-pongbot@amazon.com");
