@@ -118,6 +118,12 @@
     }
 
 
+    function clearMatchesClick(evt) {
+      localStorage.removeItem(STORAGE_KEY);
+      displayMatchData();
+    }
+
+
     function displayMatchData() {
       // Iterate through locally saved match data and output mailto URLs
       // with match data.
@@ -172,6 +178,7 @@
       jQuery("#t2p2").selectmenu();
 
       jQuery("#saveMatch").click(saveMatchClick).button();
+      jQuery("#clearMatches").click(clearMatchesClick).button();
 
       displayMatchData();
     })
