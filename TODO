@@ -1,7 +1,10 @@
 - delete a single saved match
+- allow editing of list of available players.  Store it in localstorage.
 
 - XXX: there is a bug where filling out 2v2 then toggling to 1v1 causes
   an infinite loop when setting state (uses up all memory)
 - XXX: bug where toggling from 2v2 to 1v1 doesn't enable the player names
   that are no longer visible"
+- XXX: bug where selecting 4 players then choosing 1v1, then saving will
+  save the 2v2 game
 
