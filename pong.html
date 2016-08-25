@@ -24,6 +24,11 @@
       height: 36ex;
       width: 100%;
     }
+
+    /* Player editing is hidden on load */
+    .playerDataEntry {
+      display: none;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -303,7 +308,7 @@
 
 <body>
 
-  <div id="dataEntry">
+  <div class="dataEntry">
     <fieldset id="gameTypeButtons">
       <legend>Game type</legend>
       <div>
@@ -366,7 +371,7 @@
     </div>
   </div>
 
-  <div id="playerEntry">
+  <div id="playerEntry" class="playerDataEntry">
     <fieldset>
       <legend>Edit Players</legend>
       <textarea id="editPlayerList"></textarea>
