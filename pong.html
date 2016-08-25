@@ -277,6 +277,20 @@
     }
 
 
+    function fillPlayerPulldowns()
+    {
+      // Delete all existing player options
+      jQuery(".namePulldown option[name^=player-]").remove();
+
+      // Populate player list into each pulldown
+      for (let player of getPlayerList())
+      {
+        let opt = jQuery("<option>").attr("name", `player-${player}`).text(player);
+        jQuery(".namePulldown").append(opt[0].outerHTML);
+      }
+    }
+
+
     jQuery(document).ready(function () {
       // Populate list of players if no saved player list exists
       if (getPlayerList().length === 0)
@@ -299,16 +313,7 @@
           "varshnes",
         ]);
 
-      // Populate each select with all players
-      for (selectId of ["t1p1", "t1p2", "t2p1", "t2p2"])
-      {
-        for (p of getPlayerList())
-        {
-          let opt = jQuery("<option>").attr("name", `player-${p}`).text(p);
-          jQuery(`#${selectId}`).append(opt);
-        }
-      }
-
+      fillPlayerPulldowns();
 
       // Set event handlers and jQuery UI elements
       jQuery("#t1-win").click(winLossClick);
@@ -356,11 +361,11 @@
         <label><input type="radio" name="t1winloss" id="t1-loss" class="leftspace">L</label>
       </div>
 
-      <select id="t1p1">
+      <select id="t1p1" class="namePulldown">
         <option value="" selected>Choose player...</option>
       </select>
 
-      <select id="t1p2">
+      <select id="t1p2" class="namePulldown">
         <option value="" selected>Choose player...</option>
       </select>
     </fieldset>
@@ -373,11 +378,11 @@
         <label><input type="radio" name="t2winloss" id="t2-loss" class="leftspace">L</label>
       </div>
 
-      <select id="t2p1">
+      <select id="t2p1" class="namePulldown">
         <option value="" selected>Choose player...</option>
       </select>
 
-      <select id="t2p2">
+      <select id="t2p2" class="namePulldown">
         <option value="" selected>Choose player...</option>
       </select>
     </fieldset>
