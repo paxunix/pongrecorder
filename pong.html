@@ -19,6 +19,11 @@
     #matchdata ol {
       padding-left: 1em;
     }
+
+    #editPlayerList {
+      height: 36ex;
+      width: 100%;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -357,6 +362,18 @@
 
     <div>
       <button id="clearMatches">Clear Saved Matches</button>
+      <button id="editPlayers">Edit Players</button>
     </div>
+  </div>
+
+  <div id="playerEntry">
+    <fieldset>
+      <legend>Edit Players</legend>
+      <textarea id="editPlayerList"></textarea>
+      <div>
+        <button id="saveList">Save</button>
+        <button id="cancelList">Cancel</button>
+      </div>
+    </fieldset>
   </div>
 </body>
