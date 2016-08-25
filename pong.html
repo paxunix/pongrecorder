@@ -265,7 +265,8 @@
       {
         for (p of players)
         {
-          jQuery("#" + selectId).append(jQuery("<option>").text(p));
+          let opt = jQuery("<option>").attr("name", `player-${p}`).text(p);
+          jQuery(`#${selectId}`).append(opt);
         }
       }
 
