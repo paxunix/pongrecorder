@@ -4,6 +4,11 @@
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
   <style>
+    .flex-center {
+      display: flex;
+      justify-content: center;
+    }
+
     body {
       max-width: 20em;
     }
@@ -22,6 +27,14 @@
 
     #mailMatches {
       margin: 0.5em;
+    }
+
+    #actionButtons {
+      width: 100%;
+    }
+
+    .winlossButtons {
+      padding-bottom: 1ex;
     }
   </style>
 
@@ -299,37 +312,37 @@
 
   <fieldset id="gameTypeButtons">
     <legend>Game type</legend>
-    <label for="2v2">2v2</label>
-    <input type="radio" name="gametype" id="2v2" checked="checked">
-    <label for="1v1">1v1</label>
-    <input type="radio" name="gametype" id="1v1">
+    <div class="flex-center">
+      <label for="2v2">2v2</label>
+      <input type="radio" name="gametype" id="2v2" checked="checked">
+      <label for="1v1">1v1</label>
+      <input type="radio" name="gametype" id="1v1">
+    </div>
   </fieldset>
 
   <fieldset id="team1">
     <legend>Team 1</legend>
 
-    <div id="t1winlossButtons">
+    <div id="t1winlossButtons" class="winlossButtons">
       <label for="t1-win">W</label>
       <input type="radio" name="t1winloss" id="t1-win">
       <label for="t1-loss">L</label>
       <input type="radio" name="t1winloss" id="t1-loss">
     </div>
 
-    <div>
     <select id="t1p1">
       <option value="" selected>Choose player...</option>
     </select>
-    </div>
 
     <select id="t1p2">
       <option value="" selected>Choose player...</option>
     </select>
   </fieldset>
 
-  <fieldset id="team2">
+  <fieldset id="team2" class="flex-center">
     <legend>Team 2</legend>
 
-    <div id="t2winlossButtons">
+    <div id="t2winlossButtons" class="winlossButtons">
       <label for="t2-win">W</label>
       <input type="radio" name="t2winloss" id="t2-win">
       <label for="t2-loss">L</label>
@@ -347,11 +360,18 @@
     </select>
   </fieldset>
 
-  <button id="saveMatch">Save</button> <button id="clearMatches">Clear</button> <button id="mailMatches">Mail</button>
+  <div class="flex-center">
+    <button id="saveMatch">Save</button>
+    <button id="mailMatches">Mail</button>
+  </div>
 
   <fieldset id="matches">
     <legend>Local saved match data</legend>
-    <div id="matchdata">
+    <div id="matchdata" class="flex-center">
     </div>
   </fieldset>
+
+  <div class="flex-center">
+    <button id="clearMatches">Clear Saved Matches</button>
+  </div>
 </body>
