@@ -170,7 +170,8 @@
       // Save can only be done if required fields have values
       jQuery("#saveMatch").prop("disabled",
         (is1v1 && (t1p1.val() && t2p1.val()) ||
-          (t1p1.val() && t1p2.val() && t2p1.val() && t2p2.val())) &&
+          (!is1v1 && t1p1.val() && t1p2.val() &&
+            t2p1.val() && t2p2.val())) &&
         t1WinLoss && t2WinLoss ? false : true);
 
       // Mail can only be done if at least one match is saved
