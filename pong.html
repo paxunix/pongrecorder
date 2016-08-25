@@ -125,6 +125,24 @@
 
 
     function mailMatchesClick(evt) {
+      let body = []
+      for (let match of (localStorage.getItem(STORAGE_KEY) || []))
+      {
+        match = JSON.parse(match);
+        body.push(`/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`);
+
+        let url = new URI("mailto:automotive-pongbot@amazon.com");
+        url.setSearch({
+          subject: "Pong Match",
+          body: body.join("\n"),
+        });
+
+        let mailto = jQuery("<a>")
+          .attr("href", url.toString())
+          .text(matchRecordString)
+
+        jQuery("#matchdata").append(mailto).append("<p>");
+      }
     }
 
 
@@ -183,7 +201,6 @@
 
       jQuery("#saveMatch").click(saveMatchClick).button();
       jQuery("#clearMatches").click(clearMatchesClick).button();
-      jQuery("#mailMatches").click(mailMatchesClick).button();
 
       displayMatchData();
     })
