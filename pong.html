@@ -36,6 +36,14 @@
     .winlossButtons {
       padding-bottom: 1ex;
     }
+
+    #matchdata {
+      font-size: 10pt;
+    }
+
+    #matchdata ol {
+      padding-left: 10px;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -246,23 +254,25 @@
     {
       // Iterate through locally saved match data and output mailto URLs
       // with match data.
-      jQuery("#matchdata").html("You have no saved matches");    // Clear display area
+      jQuery("#matchdata").html(hasSavedMatches() ? "<ol></ol>" : "You have no saved matches");
 
       for (let match of getMatches())
       {
-        let matchRecordString = `/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`;
+        let matchRecordString = `w:${match.winTeam} l:${match.loseTeam}`;
 
         let url = new URI("mailto:automotive-pongbot@amazon.com");
         url.setSearch({
           subject: "Pong Match",
-          body: matchRecordString,
+          body: `/pong record ${match.timestamp} ${matchRecordString}`,
         });
 
-        let mailto = jQuery("<a>")
-          .attr("href", url.toString())
+        let prettyTime = new Date(Date.parse(match.timestamp));
+        let mailto = jQuery("<li>")
+          //.attr("href", url.toString())
+          .attr("title", prettyTime.toString())
           .text(matchRecordString)
 
-        jQuery("#matchdata").append(mailto).append("<p>");
+        jQuery("#matchdata ol").append(mailto);
       }
 
       setStates();
@@ -367,7 +377,9 @@
 
   <fieldset id="matches">
     <legend>Local saved match data</legend>
-    <div id="matchdata" class="flex-center">
+    <div id="matchdata">
+      <ol>
+      </ol>
     </div>
   </fieldset>
 
