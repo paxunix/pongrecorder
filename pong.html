@@ -142,7 +142,7 @@
       let t1winLoss = jQuery('#t1winlossButtons input[type="radio"]:checked:first')[0];
       if (t1winLoss.length > 0)
       {
-        match.timestamp = "XXX";
+        match.timestamp = Date.prototype.toISOString();
 
         if (t1winLoss[0].id === "t1-win")
         {
