@@ -64,8 +64,8 @@
 
     function saveMatch(match)
     {
-      let matchData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
-      matchData.push(match)
+      let matchData = getMatches();
+      matchData.push(match);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(matchData));
     }
 
@@ -77,6 +77,10 @@
 
       jQuery("#" + otherTeamPrefix + "-" + (isWin ? "win" : "loss")).prop("checked", false).change();
       jQuery("#" + otherTeamPrefix + "-" + (isWin ? "loss" : "win")).prop("checked", true).change();
+    function getMatches()
+    {
+      let matchData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      return matchData;
     }
 
 
