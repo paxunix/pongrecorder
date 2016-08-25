@@ -70,13 +70,6 @@
     }
 
 
-    function winLossClick(evt) {
-      let isWin = evt.target.id.search(/win/) !== -1;
-      let prefix = evt.target.id.replace(/-.*$/, "");
-      let otherTeamPrefix = switchTeamNumber(prefix);
-
-      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "win" : "loss")).prop("checked", false).change();
-      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "loss" : "win")).prop("checked", true).change();
     function getMatches()
     {
       let matchData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -97,6 +90,22 @@
         jQuery("#t1p2").selectmenu("widget").show();
         jQuery("#t2p2").selectmenu("widget").show();
       }
+
+
+    function winLossClick(evt)
+    {
+      let isWin = evt.target.id.search(/win/) !== -1;
+      let prefix = evt.target.id.replace(/-.*$/, "");
+      let otherTeamPrefix = switchTeamNumber(prefix);
+
+      // Toggle the other team's win/loss buttons
+      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "win" : "loss")).prop("checked", false).change();
+      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "loss" : "win")).prop("checked", true).change();
+
+      setStates();
+    }
+
+
     }
 
 
