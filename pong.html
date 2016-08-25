@@ -89,10 +89,11 @@
     }
 
 
+    // Call this after each UI changing event
     function setStates()
     {
-      // Hide player 2 pulldowns on each team if 1v1 is selected (show them
-      // otherwise)
+      // Hide player 2 pulldowns on each team if 1v1 is selected, otherwise,
+      // show them.
       let is1v1 = jQuery('#1v1').prop("checked");
       if (is1v1)
       {
@@ -105,32 +106,37 @@
         jQuery("#t2p2").selectmenu("widget").show();
       }
 
+      // Determine if a win/loss has been selected for each team (even if
+      // 1v1, we can still retrieve team2's data)
       let t1WinLoss = getWinLossStateForFieldsetId("t1winlossButtons");
       let t2WinLoss = getWinLossStateForFieldsetId("t2winlossButtons");
 
-      // First, ensure all options are enabled
-      jQuery("#t1p1 option").prop("disabled", false);
-      jQuery("#t1p2 option").prop("disabled", false);
-      jQuery("#t2p1 option").prop("disabled", false);
-      jQuery("#t2p2 option").prop("disabled", false);
+      // First, ensure all player name options are enabled
+      jQuery('option[name^=player-]').prop("disabled", false);
 
-      // Then, disable each selected player in all other select tags
+      // Then, disable each selected player in all other pulldowns
       let t1p1 = jQuery("#t1p1");
       let t1p2 = jQuery("#t1p2");
       let t2p1 = jQuery("#t2p1");
       let t2p2 = jQuery("#t2p2");
 
-      for (el1 of [t1p1, t1p2, t2p1, t2p2])
+      for (el of [t1p1, t1p2, t2p1, t2p2])
       {
-        let p = el1.val();
-        if (!p)
-          continue;
+        let playerName = el.val();
+        if (!playerName)
+          continue;   // skip default selection
 
         // Disable all players of that name
-        jQuery(`option[name="player-${p}"]`).prop("disabled", true);
+        jQuery(`option[name="player-${playerName}"]`).prop("disabled", true);
         // Then re-enable the one that was originally set
-        jQuery(`option[name="player-${p}"]`, el1).prop("disabled", false);
+        jQuery(`option[name="player-${playerName}"]`, el).prop("disabled", false);
       }
+
+      // Reflect disabled/enabled changes to player names
+      jQuery("#t1p1").selectmenu("refresh");
+      jQuery("#t1p2").selectmenu("refresh");
+      jQuery("#t2p1").selectmenu("refresh");
+      jQuery("#t2p2").selectmenu("refresh");
 
       // Save can only be done if required fields have values
       jQuery("#saveMatch").button(
@@ -278,10 +284,10 @@
       jQuery("#t1winlossButtons").buttonset({ items: "input" });
       jQuery("#t2winlossButtons").buttonset({ items: "input" });
 
-      jQuery("#t1p1").selectmenu();
-      jQuery("#t1p2").selectmenu();
-      jQuery("#t2p1").selectmenu();
-      jQuery("#t2p2").selectmenu();
+      jQuery("#t1p1").selectmenu({ select: setStates });
+      jQuery("#t1p2").selectmenu({ select: setStates });
+      jQuery("#t2p1").selectmenu({ select: setStates });
+      jQuery("#t2p2").selectmenu({ select: setStates });
 
       jQuery("#saveMatch").click(saveMatchClick).button();
       jQuery("#clearMatches").click(clearMatchesClick).button();
