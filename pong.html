@@ -1,18 +1,11 @@
 <head>
   <title>Dumb Pong Match Recorder</title>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    .flex-center {
-      display: flex;
-      justify-content: center;
-    }
-
-    body {
-      max-width: 20em;
-    }
-
-    select {
-      width: 15em;
+    .leftspace {
+      margin-left: 2em;
     }
 
     #saveMatch {
@@ -39,12 +32,8 @@
       padding-bottom: 1ex;
     }
 
-    #matchdata {
-      font-size: 10pt;
-    }
-
     #matchdata ol {
-      padding-left: 10px;
+      padding-left: 1em;
     }
   </style>
 
@@ -334,11 +323,9 @@
 
   <fieldset id="gameTypeButtons">
     <legend>Game type</legend>
-    <div class="flex-center">
-      <label for="2v2">2v2</label>
-      <input type="radio" name="gametype" id="2v2" checked="checked">
-      <label for="1v1">1v1</label>
-      <input type="radio" name="gametype" id="1v1">
+    <div>
+      <input type="radio" name="gametype" id="2v2" checked="checked">2v2</input>
+      <input type="radio" name="gametype" id="1v1" class="leftspace">1v1</input>
     </div>
   </fieldset>
 
@@ -346,10 +333,8 @@
     <legend>Team 1</legend>
 
     <div id="t1winlossButtons" class="winlossButtons">
-      <label for="t1-win">W</label>
-      <input type="radio" name="t1winloss" id="t1-win">
-      <label for="t1-loss">L</label>
-      <input type="radio" name="t1winloss" id="t1-loss">
+      <input type="radio" name="t1winloss" id="t1-win">W</input>
+      <input type="radio" name="t1winloss" id="t1-loss" class="leftspace">L</input>
     </div>
 
     <select id="t1p1">
@@ -361,28 +346,24 @@
     </select>
   </fieldset>
 
-  <fieldset id="team2" class="flex-center">
+  <fieldset id="team2">
     <legend>Team 2</legend>
 
     <div id="t2winlossButtons" class="winlossButtons">
-      <label for="t2-win">W</label>
-      <input type="radio" name="t2winloss" id="t2-win">
-      <label for="t2-loss">L</label>
-      <input type="radio" name="t2winloss" id="t2-loss">
+      <input type="radio" name="t2winloss" id="t2-win">W</input>
+      <input type="radio" name="t2winloss" id="t2-loss" class="leftspace">L</input>
     </div>
 
-    <div>
     <select id="t2p1">
       <option value="" selected>Choose player...</option>
     </select>
-    </div>
 
     <select id="t2p2">
       <option value="" selected>Choose player...</option>
     </select>
   </fieldset>
 
-  <div class="flex-center">
+  <div>
     <button id="saveMatch">Save</button>
     <button id="reset">Reset</button>
     <button id="mailMatches">Mail</button>
@@ -396,7 +377,7 @@
     </div>
   </fieldset>
 
-  <div class="flex-center">
+  <div>
     <button id="clearMatches">Clear Saved Matches</button>
   </div>
 </body>
