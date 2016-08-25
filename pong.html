@@ -124,6 +124,10 @@
     }
 
 
+    function mailMatchesClick(evt) {
+    }
+
+
     function displayMatchData() {
       // Iterate through locally saved match data and output mailto URLs
       // with match data.
@@ -179,6 +183,7 @@
 
       jQuery("#saveMatch").click(saveMatchClick).button();
       jQuery("#clearMatches").click(clearMatchesClick).button();
+      jQuery("#mailMatches").click(mailMatchesClick).button();
 
       displayMatchData();
     })
