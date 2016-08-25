@@ -127,12 +127,13 @@
     function setStates()
     {
       // Hide player 2 pulldowns on each team if 1v1 is selected, otherwise,
-      // show them.
+      // show them.  Also, clear out each team's p2 if 1v1 is selected (this
+      // avoids some potential state issues).
       let is1v1 = jQuery('#1v1').prop("checked");
       if (is1v1)
       {
-        jQuery("#t1p2").hide();
-        jQuery("#t2p2").hide();
+        jQuery("#t1p2").hide().val("");
+        jQuery("#t2p2").hide().val("");
       }
       else
       {
