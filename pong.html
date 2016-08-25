@@ -64,6 +64,32 @@
     }
 
 
+    function winLossClick(evt) {
+      let isWin = evt.target.id.search(/win/) !== -1;
+      let prefix = evt.target.id.replace(/-.*$/, "");
+      let otherTeamPrefix = switchTeamNumber(prefix);
+
+      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "win" : "loss")).prop("checked", false).change();
+      jQuery("#" + otherTeamPrefix + "-" + (isWin ? "loss" : "win")).prop("checked", true).change();
+    }
+
+
+    function gameTypeClick(evt) {
+      let is1v1 = evt.target.id.search(/1v1/) !== -1;
+
+      if (is1v1)
+      {
+        jQuery("#t1p2").selectmenu("widget").hide();
+        jQuery("#t2p2").selectmenu("widget").hide();
+      }
+      else
+      {
+        jQuery("#t1p2").selectmenu("widget").show();
+        jQuery("#t2p2").selectmenu("widget").show();
+      }
+    }
+
+
     function saveMatchClick(evt) {
       let match = {};
       let gameType = jQuery('#gameTypeButtons input[type="radio"]:checked:first')[0].id;
@@ -127,29 +153,6 @@
         }
       }
 
-      let winLossClick = function (evt) {
-        let isWin = evt.target.id.search(/win/) !== -1;
-        let prefix = evt.target.id.replace(/-.*$/, "");
-        let otherTeamPrefix = switchTeamNumber(prefix);
-
-        jQuery("#" + otherTeamPrefix + "-" + (isWin ? "win" : "loss")).prop("checked", false).change();
-        jQuery("#" + otherTeamPrefix + "-" + (isWin ? "loss" : "win")).prop("checked", true).change();
-      }
-
-      let gameTypeClick = function (evt) {
-        let is1v1 = evt.target.id.search(/1v1/) !== -1;
-
-        if (is1v1)
-        {
-          jQuery("#t1p2").selectmenu("widget").hide();
-          jQuery("#t2p2").selectmenu("widget").hide();
-        }
-        else
-        {
-          jQuery("#t1p2").selectmenu("widget").show();
-          jQuery("#t2p2").selectmenu("widget").show();
-        }
-      }
 
       jQuery("#t1-win").click(winLossClick);
       jQuery("#t1-loss").click(winLossClick);
