@@ -23,6 +23,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/IPv6.js"></script>
 
   <script>
     function switchTeamNumber(str)
@@ -90,6 +91,31 @@
     }
 
 
+    function displayMatchData() {
+      // Iterate through locally saved match data and output mailto URLs
+      // with match data.
+      jQuery("#matchdata").html("");
+
+      for (let match of (localStorage.getItem(STORAGE_KEY) || []))
+      {
+        match = JSON.parse(match);
+        let matchRecordString = `/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`;
+
+        let url = new URI("mailto:automotive-pongbot@amazon.com");
+        url.setSearch({
+          subject: "Pong Match",
+          body: matchRecordString,
+        });
+
+        let mailto = jQuery("<a>")
+          .attr("href", url.toString())
+          .text(matchRecordString)
+
+        jQuery("#matchdata").append(mailto).append("<p>");
+      }
+    }
+
+
     jQuery(document).ready(function () {
       // Populate each select with all players
       for (selectId of ["t1p1", "t1p2", "t2p1", "t2p2"])
@@ -142,6 +168,8 @@
       jQuery("#t2p2").selectmenu();
 
       jQuery("#saveMatch").click(saveMatchClick).button();
+
+      displayMatchData();
     })
   </script>
 </head>
