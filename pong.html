@@ -1,0 +1,149 @@
+<head>
+  <title>Dumb Pong Match Recorder</title>
+
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+
+  <style>
+    select {
+      width: 20em;
+    }
+
+    #t1winlossButtons label, #t2winlossButtons label {
+      vertical-align: top;
+    }
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+  <script>
+    function switchTeamNumber(str)
+    {
+        if (str.search(/1/) !== -1) return str.replace(/1/, "2");
+        if (str.search(/2/) !== -1) return str.replace(/2/, "1");
+        throw new Error("unknown team id");
+    }
+
+
+    let players = [
+      "baekc",
+      "chengxw",
+      "ddivyesh",
+      "dmmalone",
+      "georgyue",
+      "gunterj",
+      "haimobai",
+      "halpenny",
+      "jabeck",
+      "locknerp",
+      "markajo",
+      "scarbro",
+      "tomwdlw",
+      "varshnes",
+    ];
+
+    players.sort();
+
+    jQuery(document).ready(function () {
+      // Populate each select with all players
+      for (selectId of ["t1p1", "t1p2", "t2p1", "t2p2"])
+      {
+        for (p of players)
+        {
+          jQuery("#" + selectId).append(jQuery("<option>").text(p));
+        }
+      }
+
+      let winLossClick = function (evt) {
+        let isWin = evt.target.id.search(/win/) !== -1;
+        let prefix = evt.target.id.replace(/-.*$/, "");
+        let otherTeamPrefix = switchTeamNumber(prefix);
+
+        jQuery("#" + otherTeamPrefix + "-" + (isWin ? "win" : "loss")).prop("checked", false).change();
+        jQuery("#" + otherTeamPrefix + "-" + (isWin ? "loss" : "win")).prop("checked", true).change();
+      }
+
+      let gameTypeClick = function (evt) {
+        let is1v1 = evt.target.id.search(/1v1/) !== -1;
+
+        if (is1v1)
+        {
+          jQuery("#t1p2").selectmenu("widget").hide();
+          jQuery("#t2p2").selectmenu("widget").hide();
+        }
+        else
+        {
+          jQuery("#t1p2").selectmenu("widget").show();
+          jQuery("#t2p2").selectmenu("widget").show();
+        }
+      }
+
+      jQuery("#t1-win").click(winLossClick);
+      jQuery("#t1-loss").click(winLossClick);
+      jQuery("#t2-win").click(winLossClick);
+      jQuery("#t2-loss").click(winLossClick);
+
+      jQuery("#1v1").click(gameTypeClick);
+      jQuery("#2v2").click(gameTypeClick);
+
+      jQuery("#gameTypeButtons").buttonset({ items: "input" });
+      jQuery("#t1winlossButtons").buttonset({ items: "input" });
+      jQuery("#t2winlossButtons").buttonset({ items: "input" });
+
+      jQuery("#t1p1").selectmenu();
+      jQuery("#t1p2").selectmenu();
+      jQuery("#t2p1").selectmenu();
+      jQuery("#t2p2").selectmenu();
+    })
+  </script>
+</head>
+
+<body>
+
+  <fieldset id="gameTypeButtons">
+    <legend>Game type</legend>
+    <label for="2v2">2v2</label>
+    <input type="radio" name="type" id="2v2" checked="checked">
+    <label for="1v1">1v1</label>
+    <input type="radio" name="type" id="1v1">
+  </fieldset>
+
+  <fieldset id="team1">
+    <legend>Team 1</legend>
+
+    <select id="t1p1">
+      <option selected>Choose player...</option>
+    </select>
+
+    <select id="t1p2">
+      <option selected>Choose player...</option>
+    </select>
+
+    <span id="t1winlossButtons">
+      <label for="t1-win">Win</label>
+      <input type="radio" name="t1winloss" id="t1-win">
+      <label for="t1-loss">Loss</label>
+      <input type="radio" name="t1winloss" id="t1-loss">
+    </span>
+  </fieldset>
+
+  <fieldset id="team2">
+    <legend>Team 2</legend>
+
+    <select id="t2p1">
+      <option selected>Choose player...</option>
+    </select>
+
+    <select id="t2p2">
+      <option selected>Choose player...</option>
+    </select>
+
+    <span id="t2winlossButtons">
+      <label for="t2-win">Win</label>
+      <input type="radio" name="t2winloss" id="t2-win">
+      <label for="t2-loss">Loss</label>
+      <input type="radio" name="t2winloss" id="t2-loss">
+    </span>
+  </fieldset>
+
+</body>
