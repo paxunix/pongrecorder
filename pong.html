@@ -255,27 +255,16 @@
 
     function displayMatchData()
     {
-      // Iterate through locally saved match data and output mailto URLs
-      // with match data.
       jQuery("#matchdata").html(hasSavedMatches() ? "<ol></ol>" : "You have no saved matches");
 
       for (let match of getMatches())
       {
-        let matchRecordString = `w:${match.winTeam} l:${match.loseTeam}`;
-
-        let url = new URI("mailto:automotive-pongbot@amazon.com");
-        url.setSearch({
-          subject: "Pong Match",
-          body: `/pong record ${match.timestamp} ${matchRecordString}`,
-        });
-
         let prettyTime = new Date(Date.parse(match.timestamp));
-        let mailto = jQuery("<li>")
-          //.attr("href", url.toString())
+        let item = jQuery("<li>")
           .attr("title", prettyTime.toString())
-          .text(matchRecordString)
+          .text(`w:${match.winTeam} l:${match.loseTeam}`)
 
-        jQuery("#matchdata ol").append(mailto);
+        jQuery("#matchdata ol").append(item);
       }
 
       setStates();
