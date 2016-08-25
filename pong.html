@@ -194,9 +194,15 @@
     }
 
 
-    function clearMatchesClick(evt)
+    function clearStoredMatches()
     {
       localStorage.removeItem(STORAGE_KEY);
+    }
+
+
+    function clearMatchesClick(evt)
+    {
+      clearStoredMatches();
       displayMatchData();
     }
 
