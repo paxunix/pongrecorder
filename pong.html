@@ -264,6 +264,7 @@
           .text("\u2573");      // a big X
         let span = jQuery("<span>")
           .addClass("gameString")
+          .attr("data-gameresult", JSON.stringify({win: game.winTeam, lose: game.loseTeam}))
           .text(game.gameString);
         let item = jQuery("<p>")
           .attr("title", prettyTime.toString())
@@ -365,6 +366,37 @@
     }
 
 
+    function gameStringClick(evt)
+    {
+      debugger;
+      // Populate the form with the data from the game string.  Useful if
+      // you want to "copy" an existing game's players.
+      let gameData = JSON.parse(evt.target.dataset.gameresult);
+
+      resetStates();
+
+      let is1v1 = (gameData.win.length == 1);
+
+      jQuery('#1v1').prop("checked", is1v1);
+      jQuery('#2v2').prop("checked", !is1v1);
+
+      jQuery('#t1-win,#t1-loss,#t2-win,#t2-loss').prop("checked", false);
+
+      jQuery("#t1p1").val(gameData.win[0] || "");
+      jQuery("#t1p2").val(gameData.win[1] || "");
+      jQuery("#t2p1").val(gameData.lose[0] || "");
+      jQuery("#t2p2").val(gameData.lose[1] || "");
+
+      if (!is1v1)
+      {
+        jQuery("#t1p2").show();
+        jQuery("#t2p2").show();
+      }
+
+      setStates();
+    }
+
+
     jQuery(document).ready(function () {
       // Populate list of players if no saved player list exists
       if (getPlayerList().length === 0)
@@ -414,6 +446,7 @@
       jQuery("#cancelList").click(cancelPlayerListClick);
 
       jQuery("#matchdata").on("click", ".deleteGame", deleteGameClick);
+      jQuery("#matchdata").on("click", ".gameString", gameStringClick);
 
       displayMatchData();
     })
