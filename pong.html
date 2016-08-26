@@ -194,14 +194,20 @@
 
         if ($t1winLoss[0].id === "t1-win")
         {
-          game.winTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
-          game.loseTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
+          game.winTeam = [ t1p1, t1p2 ];
+          game.loseTeam = [ t2p1, t2p2 ];
+
         }
         else
         {
-          game.winTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
-          game.loseTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
+          game.winTeam = [ t2p1, t2p2 ];
+          game.loseTeam = [ t1p1, t1p2 ];
         }
+
+        game.gameString =
+          "w:" + game.winTeam.filter(el => el).join(",") +
+          " " +
+          "l:" + game.loseTeam.filter(el => el).join(",");
       }
 
       saveGame(game);
@@ -230,7 +236,7 @@
       let body = [];
       for (let game of getMatches())
       {
-        body.push(`/pong record \"${game.timestamp}\" w:${game.winTeam} l:${game.loseTeam}`);
+        body.push(`/pong record \"${game.timestamp}\" ${game.gameString}`);
       }
 
       let url = new URI("mailto:" + "automotive-pongbot" + "@" + "amazon.com");
@@ -256,13 +262,14 @@
           .attr("data-offset", count)
           .attr("href", "#")
           .text("\u2573");
+        let span = jQuery("<span>")
+          .addClass("gameString")
+          .text(game.gameString);
         let item = jQuery("<p>")
           .attr("title", prettyTime.toString())
-          .text(`w:${game.winTeam} l:${game.loseTeam}`);
+          .html(deleteAnchor[0].outerHTML + span[0].outerHTML);
 
         ++count;
-
-        item[0].innerHTML = deleteAnchor[0].outerHTML + item[0].innerHTML;
 
         jQuery("#matchdata").append(item);
       }
