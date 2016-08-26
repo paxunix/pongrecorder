@@ -26,13 +26,13 @@
       width: 100%;
     }
 
-    .deleteMatch {
+    .deleteGame {
       padding-left: 1em;
       padding-right: 1em;
       text-decoration: none;
     }
 
-    .deleteMatch:link, .deleteMatch:visited, .deleteMatch:hover, .deleteMatch:active {
+    .deleteGame:link, .deleteGame:visited, .deleteGame:hover, .deleteGame:active {
       color: red;
     }
 
@@ -64,10 +64,10 @@
     }
 
 
-    function saveMatch(match)
+    function saveGame(game)
     {
       let matchData = getMatches();
-      matchData.push(match);
+      matchData.push(game);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(matchData));
     }
 
@@ -155,7 +155,7 @@
       }
 
       // Save can only be done if required fields have values
-      jQuery("#saveMatch").prop("disabled",
+      jQuery("#saveGame").prop("disabled",
         (is1v1 && (t1p1.val() && t2p1.val()) ||
           (!is1v1 && t1p1.val() && t1p2.val() &&
             t2p1.val() && t2p2.val())) &&
@@ -180,9 +180,9 @@
     }
 
 
-    function saveMatchClick(evt)
+    function saveGameClick(evt)
     {
-      let match = {};
+      let game = {};
       let t1p1 = jQuery("#t1p1").val();
       let t1p2 = jQuery("#t1p2").val();
       let t2p1 = jQuery("#t2p1").val();
@@ -190,21 +190,21 @@
       let $t1winLoss = jQuery('#t1winlossButtons input[type="radio"]:checked:first');
       if ($t1winLoss.length > 0)
       {
-        match.timestamp = (new Date).toISOString();
+        game.timestamp = (new Date).toISOString();
 
         if ($t1winLoss[0].id === "t1-win")
         {
-          match.winTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
-          match.loseTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
+          game.winTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
+          game.loseTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
         }
         else
         {
-          match.winTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
-          match.loseTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
+          game.winTeam = [ t2p1, t2p2 ].filter(el => el).join(",");
+          game.loseTeam = [ t1p1, t1p2 ].filter(el => el).join(",");
         }
       }
 
-      saveMatch(match);
+      saveGame(game);
       displayMatchData();
     }
 
@@ -228,14 +228,14 @@
     function mailMatchesClick(evt)
     {
       let body = [];
-      for (let match of getMatches())
+      for (let game of getMatches())
       {
-        body.push(`/pong record \"${match.timestamp}\" w:${match.winTeam} l:${match.loseTeam}`);
+        body.push(`/pong record \"${game.timestamp}\" w:${game.winTeam} l:${game.loseTeam}`);
       }
 
       let url = new URI("mailto:" + "automotive-pongbot" + "@" + "amazon.com");
       url.setSearch({
-        subject: "Pong Match",
+        subject: "Pong Result",
         body: body.join("\n"),
       });
 
@@ -245,20 +245,20 @@
 
     function displayMatchData()
     {
-      jQuery("#matchdata").html(hasSavedMatches() ? "" : "You have no saved matches");
+      jQuery("#matchdata").html(hasSavedMatches() ? "" : "You have no saved games");
 
       let count = 0;
-      for (let match of getMatches())
+      for (let game of getMatches())
       {
-        let prettyTime = new Date(Date.parse(match.timestamp));
+        let prettyTime = new Date(Date.parse(game.timestamp));
         let deleteAnchor = jQuery("<a>")
-          .addClass("deleteMatch")
+          .addClass("deleteGame")
           .attr("data-offset", count)
           .attr("href", "#")
           .text("\u2573");
         let item = jQuery("<p>")
           .attr("title", prettyTime.toString())
-          .text(`w:${match.winTeam} l:${match.loseTeam}`);
+          .text(`w:${game.winTeam} l:${game.loseTeam}`);
 
         ++count;
 
@@ -396,7 +396,7 @@
       jQuery("#t2p1").change(setStates);
       jQuery("#t2p2").change(setStates);
 
-      jQuery("#saveMatch").click(saveMatchClick);
+      jQuery("#saveGame").click(saveGameClick);
       jQuery("#reset").click(resetStates);
       jQuery("#mailMatches").click(mailMatchesClick);
 
@@ -406,7 +406,7 @@
       jQuery("#saveList").click(savePlayerListClick);
       jQuery("#cancelList").click(cancelPlayerListClick);
 
-      jQuery("#matchdata").on("click", ".deleteMatch", deleteGameClick);
+      jQuery("#matchdata").on("click", ".deleteGame", deleteGameClick);
 
       displayMatchData();
     })
@@ -459,13 +459,13 @@
     </fieldset>
 
     <div>
-      <button id="saveMatch">Save</button>
+      <button id="saveGame">Save</button>
       <button id="reset">Reset</button>
       <button id="mailMatches">Mail</button>
     </div>
 
     <fieldset id="matches">
-      <legend>Local saved match data</legend>
+      <legend>Local saved matches</legend>
       <div id="matchdata">
       </div>
     </fieldset>
