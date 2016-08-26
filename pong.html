@@ -16,8 +16,9 @@
       padding-bottom: 1ex;
     }
 
-    #matchdata ol {
-      padding-left: 1em;
+    #matchdata p {
+      padding: 0px;
+      margin: 0px;
     }
 
     #editPlayerList {
@@ -244,7 +245,7 @@
 
     function displayMatchData()
     {
-      jQuery("#matchdata").html(hasSavedMatches() ? "<ol></ol>" : "You have no saved matches");
+      jQuery("#matchdata").html(hasSavedMatches() ? "" : "You have no saved matches");
 
       let count = 0;
       for (let match of getMatches())
@@ -255,7 +256,7 @@
           .attr("data-offset", count)
           .attr("href", "#")
           .text("\u2573");
-        let item = jQuery("<li>")
+        let item = jQuery("<p>")
           .attr("title", prettyTime.toString())
           .text(`w:${match.winTeam} l:${match.loseTeam}`);
 
@@ -263,7 +264,7 @@
 
         item[0].innerHTML = deleteAnchor[0].outerHTML + item[0].innerHTML;
 
-        jQuery("#matchdata ol").append(item);
+        jQuery("#matchdata").append(item);
       }
 
       setStates();
@@ -466,8 +467,6 @@
     <fieldset id="matches">
       <legend>Local saved match data</legend>
       <div id="matchdata">
-        <ol>
-        </ol>
       </div>
     </fieldset>
 
