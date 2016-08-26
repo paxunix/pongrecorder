@@ -252,14 +252,15 @@
         let prettyTime = new Date(Date.parse(match.timestamp));
         let deleteAnchor = jQuery("<a>")
           .addClass("deleteMatch")
-          .data("offset", count)
+          .attr("data-offset", count)
           .attr("href", "#")
           .text("\u2573");
         let item = jQuery("<li>")
           .attr("title", prettyTime.toString())
           .text(`w:${match.winTeam} l:${match.loseTeam}`);
 
-        count++;
+        ++count;
+
         item[0].innerHTML = deleteAnchor[0].outerHTML + item[0].innerHTML;
 
         jQuery("#matchdata ol").append(item);
@@ -343,6 +344,20 @@
     }
 
 
+    function deleteGameClick(evt)
+    {
+      // Remove the given game, then redraw the list (otherwise the offsets
+      // will be all wrong after removing).
+      let offset = evt.target.dataset.offset;
+      let matches = getMatches();
+      matches.splice(offset, 1);
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(matches));
+
+      displayMatchData();
+    }
+
+
     jQuery(document).ready(function () {
       // Populate list of players if no saved player list exists
       if (getPlayerList().length === 0)
@@ -390,6 +405,8 @@
       jQuery("#editPlayers").click(editPlayersClick);
       jQuery("#saveList").click(savePlayerListClick);
       jQuery("#cancelList").click(cancelPlayerListClick);
+
+      jQuery("#matchdata").on("click", ".deleteMatch", deleteGameClick);
 
       displayMatchData();
     })
