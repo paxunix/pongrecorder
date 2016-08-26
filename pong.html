@@ -194,20 +194,20 @@
 
         if ($t1winLoss[0].id === "t1-win")
         {
-          game.winTeam = [ t1p1, t1p2 ];
-          game.loseTeam = [ t2p1, t2p2 ];
+          game.winTeam = [ t1p1, t1p2 ].filter(el => el);
+          game.loseTeam = [ t2p1, t2p2 ].filter(el => el);
 
         }
         else
         {
-          game.winTeam = [ t2p1, t2p2 ];
-          game.loseTeam = [ t1p1, t1p2 ];
+          game.winTeam = [ t2p1, t2p2 ].filter(el => el);
+          game.loseTeam = [ t1p1, t1p2 ].filter(el => el);
         }
 
         game.gameString =
-          "w:" + game.winTeam.filter(el => el).join(",") +
+          "w:" + game.winTeam.join(",") +
           " " +
-          "l:" + game.loseTeam.filter(el => el).join(",");
+          "l:" + game.loseTeam.join(",");
       }
 
       saveGame(game);
