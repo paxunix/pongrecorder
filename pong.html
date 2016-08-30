@@ -233,16 +233,18 @@
 
     function mailMatchesClick(evt)
     {
-      let body = [];
-      for (let game of getMatches())
-      {
-        body.push(`/pong record \"${game.timestamp}\" ${game.gameString}`);
-      }
-
+      let matches = getMatches();
+      let timestamp = matches[0].timestamp;
+      let matchStrings = matches.map(match => match.gameString).join("\n");
+      let body = [
+        `/pong record "${timestamp}" ${matchStrings}`,
+        "",
+        "Paste the above into the Mattermost Off-Topic channel to record these results.",
+      ];
       let url = new URI("mailto:" + "automotive-pongbot" + "@" + "amazon.com");
       url.setSearch({
         subject: "Pong Result",
-        body: body.join("\n"),
+        body: body.join("\n")
       });
 
       window.open(url.toString(), "pongbot mail window");
