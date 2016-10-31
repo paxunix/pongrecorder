@@ -238,7 +238,8 @@
       let timestamp = matches[0].timestamp;
       let matchStrings = matches.map(match => match.gameString).join("\n");
       let body = [
-        `/pong record "${timestamp}" ${matchStrings}`,
+        `/pong record "${timestamp}"`,
+        `${matchStrings}`,
         "",
         "Paste the above into the Mattermost Off-Topic channel to record these results.",
       ];
