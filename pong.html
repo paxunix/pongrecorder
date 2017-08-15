@@ -41,6 +41,12 @@
     .playerDataEntry {
       display: none;
     }
+
+    /* Help is hidden on load */
+    .helpContent {
+      display: none;
+      max-width: 300px;
+    }
   </style>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -309,6 +315,20 @@
     }
 
 
+    function helpClick(evt)
+    {
+      jQuery(".dataEntry").hide();
+      jQuery(".helpContent").show();
+    }
+
+
+    function helpDismissClick(evt)
+    {
+      jQuery(".helpContent").hide();
+      jQuery(".dataEntry").show();
+    }
+
+
     function fillPlayerPulldowns()
     {
       // Delete all existing player options
@@ -444,6 +464,9 @@
       jQuery("#saveList").click(savePlayerListClick);
       jQuery("#cancelList").click(cancelPlayerListClick);
 
+      jQuery("#help").click(helpClick);
+      jQuery("#helpDismissClick").click(helpDismissClick);
+
       jQuery("#matchdata").on("click", ".deleteGame", deleteGameClick);
       jQuery("#matchdata").on("click", ".gameString", gameStringClick);
 
@@ -513,6 +536,8 @@
       <button id="clearMatches">Clear Saved Matches</button>
       <button id="editPlayers">Edit Players</button>
     </div>
+
+    <button id="help">Help</button>
   </div>
 
   <div id="playerEntry" class="playerDataEntry">
@@ -524,5 +549,19 @@
         <button id="cancelList">Cancel</button>
       </div>
     </fieldset>
+  </div>
+
+  <div class="helpContent">
+    Simple data entry form to save pong game data.
+    <p>
+    All information is saved locally to the device accessing the page.
+    <p>
+    When the Mail button is clicked, it will use your default mail
+    application to construct an email, the recipient of which can take the
+    match data and record it in pongbot chat.
+
+    <div style="text-align: center;">
+      <button id="helpDismissClick">Ok</button>
+    </div>
   </div>
 </body>
