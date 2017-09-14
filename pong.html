@@ -22,6 +22,14 @@
       margin: 0px;
     }
 
+    .winString {
+      color: green;
+    }
+
+    .loseString {
+      color: red;
+    }
+
     #editPlayerList {
       height: 36ex;
       width: 100%;
@@ -51,6 +59,10 @@
     .helpContent {
       display: none;
       max-width: 300px;
+    }
+
+    .nowrap {
+      white-space: nowrap;
     }
   </style>
 
@@ -213,6 +225,33 @@
     }
 
 
+    function getPlainGameString(gameObj)
+    {
+        return `w:${gameObj.winTeam.join(",")} l:${gameObj.loseTeam.join(",")}`;
+    }
+
+
+    function getMarkupGameString(gameObj)
+    {
+        let elWin = jQuery("<span>")
+          .addClass("nowrap")
+          .addClass("winString")
+          .text(`W: ${gameObj.winTeam.join(",")}`);
+
+        let elLose = jQuery("<span>")
+          .addClass("nowrap")
+          .addClass("loseString")
+          .text(`L: ${gameObj.loseTeam.join(",")}`);
+
+        let el = jQuery("<span>")
+          .append(elWin)
+          .append(" ")
+          .append(elLose);
+
+        return el[0].outerHTML;
+    }
+
+
     function saveGameClick(evt)
     {
       let game = {};
@@ -236,11 +275,6 @@
           game.winTeam = [ t2p1, t2p2 ].filter(el => el);
           game.loseTeam = [ t1p1, t1p2 ].filter(el => el);
         }
-
-        game.gameString =
-          "w:" + game.winTeam.join(",") +
-          " " +
-          "l:" + game.loseTeam.join(",");
       }
 
       saveGame(game);
@@ -269,9 +303,9 @@
 
     function mailMatchesClick(evt)
     {
-      let matches = getMatches();
+      let games = getMatches();
       let timestamp = matches[0].timestamp;
-      let matchStrings = matches.map(match => match.gameString).join("\n");
+      let matchStrings = games.map(game => getPlainGameString(game)).join("\n");
       let body = [
         `/pong record "${timestamp}"`,
         `${matchStrings}`,
@@ -303,8 +337,8 @@
           .text("\u2573");      // a big X
         let span = jQuery("<span>")
           .addClass("gameString")
-          .attr("data-gameresult", JSON.stringify({win: game.winTeam, lose: game.loseTeam}))
-          .text(` ${count + 1}. ${game.gameString}`);
+          .attr("data-gameresult", JSON.stringify(game))
+          .html(` ${count + 1}. ${getMarkupGameString(game)}`);
         let item = jQuery("<p>")
           .attr("title", prettyTime.toString())
           .html(deleteAnchor[0].outerHTML + span[0].outerHTML);
@@ -453,21 +487,21 @@
     {
       // Populate the form with the data from the game string.  Useful if
       // you want to "copy" an existing game's players.
-      let gameData = JSON.parse(evt.target.dataset.gameresult);
+      let gameData = JSON.parse(evt.currentTarget.dataset.gameresult);
 
       resetStates();
 
-      let is1v1 = (gameData.win.length == 1);
+      let is1v1 = (gameData.winTeam.length == 1);
 
       jQuery('#1v1').prop("checked", is1v1);
       jQuery('#2v2').prop("checked", !is1v1);
 
       jQuery('#t1-win,#t1-loss,#t2-win,#t2-loss').prop("checked", false);
 
-      jQuery("#t1p1").val(gameData.win[0] || "");
-      jQuery("#t1p2").val(gameData.win[1] || "");
-      jQuery("#t2p1").val(gameData.lose[0] || "");
-      jQuery("#t2p2").val(gameData.lose[1] || "");
+      jQuery("#t1p1").val(gameData.winTeam[0] || "");
+      jQuery("#t1p2").val(gameData.winTeam[1] || "");
+      jQuery("#t2p1").val(gameData.loseTeam[0] || "");
+      jQuery("#t2p2").val(gameData.loseTeam[1] || "");
 
       if (!is1v1)
       {
