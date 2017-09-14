@@ -48,6 +48,7 @@
     .deleteGame:link, .deleteGame:visited, .deleteGame:hover, .deleteGame:active {
       color: red;
       text-decoration: none;
+      font-size: 125%;
     }
 
     /* Editing is hidden on load */
@@ -236,16 +237,16 @@
         let elWin = jQuery("<span>")
           .addClass("nowrap")
           .addClass("winString")
-          .text(`W: ${gameObj.winTeam.join(",")}`);
+          .text(`W: ${gameObj.winTeam.join(", ")}`);
 
         let elLose = jQuery("<span>")
           .addClass("nowrap")
           .addClass("loseString")
-          .text(`L: ${gameObj.loseTeam.join(",")}`);
+          .text(`L: ${gameObj.loseTeam.join(", ")}`);
 
         let el = jQuery("<span>")
           .append(elWin)
-          .append(" ")
+          .append("<br>")
           .append(elLose);
 
         return el[0].outerHTML;
@@ -304,7 +305,7 @@
     function mailMatchesClick(evt)
     {
       let games = getMatches();
-      let timestamp = matches[0].timestamp;
+      let timestamp = games[0].timestamp;
       let matchStrings = games.map(game => getPlainGameString(game)).join("\n");
       let body = [
         `/pong record "${timestamp}"`,
@@ -327,26 +328,42 @@
       jQuery("#matchdata").html(hasSavedMatches() ? "" : "You have no saved games");
 
       let count = 0;
+      let table = jQuery("<table>").css({ width: "100%" });
+
       for (let game of getMatches())
       {
         let prettyTime = new Date(Date.parse(game.timestamp));
+
         let deleteAnchor = jQuery("<a>")
           .addClass("deleteGame")
           .attr("data-offset", count)
           .attr("href", "#")
           .text("\u2573");      // a big X
+        let td1 = jQuery("<td>")
+          .css({ "width": "1.2em" })
+          .append(deleteAnchor);
+
+        let td2 = jQuery("<td>")
+          .css({ "width": "1.2em", "font-size": "140%" })
+          .html(`${count + 1}`);
+
         let span = jQuery("<span>")
+          .attr("title", prettyTime.toString())
+          .html(getMarkupGameString(game));
+        let td3 = jQuery("<td>")
           .addClass("gameString")
           .attr("data-gameresult", JSON.stringify(game))
-          .html(` ${count + 1}. ${getMarkupGameString(game)}`);
-        let item = jQuery("<p>")
-          .attr("title", prettyTime.toString())
-          .html(deleteAnchor[0].outerHTML + span[0].outerHTML);
+          .append(span);
+
+        let tr = jQuery("<tr>")
+          .append(td1, td2, td3);
+
+        table.append(tr);
 
         ++count;
-
-        jQuery("#matchdata").append(item);
       }
+
+      jQuery("#matchdata").append(table);
 
       setStates();
     }
