@@ -84,24 +84,24 @@
     }
 
 
-    function hasSavedMatches()
+    function hasSavedGames()
     {
-        return getMatches().length > 0;
+        return getGames().length > 0;
     }
 
 
     function saveGame(game)
     {
-      let matchData = getMatches();
-      matchData.push(game);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(matchData));
+      let gameData = getGames();
+      gameData.push(game);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(gameData));
     }
 
 
-    function getMatches()
+    function getGames()
     {
-      let matchData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      return matchData;
+      let gameData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      return gameData;
     }
 
 
@@ -207,8 +207,8 @@
             t2p1.val() && t2p2.val())) &&
         t1WinLoss && t2WinLoss ? false : true);
 
-      // Mail can only be done if at least one match is saved
-      jQuery("#mailMatches").prop("disabled", hasSavedMatches() ? false : true);
+      // Mail can only be done if at least one game is saved
+      jQuery("#mailMatch").prop("disabled", hasSavedGames() ? false : true);
     }
 
 
@@ -283,33 +283,33 @@
     }
 
 
-    function clearStoredMatches()
+    function clearStoredGames()
     {
       localStorage.removeItem(STORAGE_KEY);
     }
 
 
-    function clearMatchesClick(evt)
+    function clearGamesClick(evt)
     {
-      if (hasSavedMatches())
+      if (hasSavedGames())
       {
-        if (window.confirm("Clear all saved matches?"))
+        if (window.confirm("Clear all saved games?"))
         {
-          clearStoredMatches();
+          clearStoredGames();
           displayMatchData();
         }
       }
     }
 
 
-    function mailMatchesClick(evt)
+    function mailMatchClick(evt)
     {
-      let games = getMatches();
+      let games = getGames();
       let timestamp = games[0].timestamp;
-      let matchStrings = games.map(game => getPlainGameString(game)).join("\n");
+      let gameStrings = games.map(game => getPlainGameString(game)).join("\n");
       let body = [
         `/pong record "${timestamp}"`,
-        `${matchStrings}`,
+        `${gameStrings}`,
         "",
         "Paste the above into the Mattermost Off-Topic channel to record these results.",
       ];
@@ -325,12 +325,12 @@
 
     function displayMatchData()
     {
-      jQuery("#matchdata").html(hasSavedMatches() ? "" : "You have no saved games");
+      jQuery("#matchdata").html(hasSavedGames() ? "" : "You have no saved games");
 
       let count = 0;
       let table = jQuery("<table>").css({ width: "100%" });
 
-      for (let game of getMatches())
+      for (let game of getGames())
       {
         let prettyTime = new Date(Date.parse(game.timestamp));
 
@@ -491,10 +491,10 @@
       // Remove the given game, then redraw the list (otherwise the offsets
       // will be all wrong after removing).
       let offset = evt.target.dataset.offset;
-      let matches = getMatches();
-      matches.splice(offset, 1);
+      let games = getGames();
+      games.splice(offset, 1);
 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(matches));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
 
       displayMatchData();
     }
@@ -563,9 +563,9 @@
 
       jQuery("#saveGame").click(saveGameClick);
       jQuery("#reset").click(resetStates);
-      jQuery("#mailMatches").click(mailMatchesClick);
+      jQuery("#mailMatch").click(mailMatchClick);
 
-      jQuery("#clearMatches").click(clearMatchesClick);
+      jQuery("#clearGames").click(clearGamesClick);
 
       jQuery("#editMetadata").click(editMetadataClick);
       jQuery("#saveList").click(savePlayerListClick);
@@ -638,17 +638,17 @@
     <div>
       <button id="saveGame">Save</button>
       <button id="reset">Reset</button>
-      <button id="mailMatches">Mail</button>
+      <button id="mailMatch">Mail</button>
     </div>
 
-    <fieldset id="matches">
-      <legend>Local saved matches</legend>
+    <fieldset id="match">
+      <legend>Local saved games</legend>
       <div id="matchdata">
       </div>
     </fieldset>
 
     <div>
-      <button id="clearMatches">Clear Saved Games</button>
+      <button id="clearGames">Clear Saved Games</button>
       <button id="editMetadata">Edit Metadata</button>
     </div>
 
