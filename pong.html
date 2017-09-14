@@ -255,10 +255,13 @@
 
     function clearMatchesClick(evt)
     {
-      if (window.confirm("Clear all saved matches?"))
+      if (hasSavedMatches())
       {
-        clearStoredMatches();
-        displayMatchData();
+        if (window.confirm("Clear all saved matches?"))
+        {
+          clearStoredMatches();
+          displayMatchData();
+        }
       }
     }
 
