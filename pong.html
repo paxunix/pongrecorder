@@ -278,7 +278,7 @@
         "",
         "Paste the above into the Mattermost Off-Topic channel to record these results.",
       ];
-      let url = new URI("mailto:" + "automotive-pongbot" + "@" + "amazon.com");
+      let url = new URI(`mailto: ${getEmailAddress()}`);
       url.setSearch({
         subject: "Pong Result",
         body: body.join("\n")
