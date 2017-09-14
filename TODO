@@ -1,1 +1,3 @@
 - preserve a history of matches
+- edit metadata should just save/cancel all at once (no need for a second
+  set of buttons)
