@@ -296,7 +296,7 @@
         let span = jQuery("<span>")
           .addClass("gameString")
           .attr("data-gameresult", JSON.stringify({win: game.winTeam, lose: game.loseTeam}))
-          .text(game.gameString);
+          .text(`${count + 1}. ${game.gameString}`);
         let item = jQuery("<p>")
           .attr("title", prettyTime.toString())
           .html(deleteAnchor[0].outerHTML + span[0].outerHTML);
