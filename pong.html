@@ -120,6 +120,11 @@
     // Call this after each UI changing event
     function setStates()
     {
+      // Hide/show forms
+      jQuery(".helpContent").hide();
+      jQuery(".playerDataEntry").hide();
+      jQuery(".dataEntry").show();
+
       // Hide player 2 pulldowns on each team if 1v1 is selected, otherwise,
       // show them.  Also, clear out each team's p2 if 1v1 is selected (this
       // avoids some potential state issues).
